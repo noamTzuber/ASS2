@@ -27,6 +27,23 @@ namespace WebApplication2.Controllers
                           Problem("Entity set 'WebApplication2Context.Rate'  is null.");
         }
 
+     
+        public async Task<IActionResult> Index2(string query)
+        {
+            var q = _context.Rate.Where(rate=> rate.Name.Contains(query));
+
+           return Json(await q.ToListAsync());
+                        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(string query)
+        {
+            var q = _context.Rate.Where(rate => rate.Name.Contains(query));
+
+            return Json(await q.ToListAsync());
+
+        }
         // GET: Rates/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -10,8 +10,12 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div>
-    Rate average: 
+    Rate average:  
 </div>
+<form asp-action="Index">
+    <input name = "query" id="search" />
+    <input type = "submit" type = "Search" />
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -54,3 +58,29 @@
 }
     </tbody>
 </table>
+
+@section Scripts{
+    <script type="text/html" id="template">
+         <tr>
+            <td>
+                {name}
+            </td>
+            <td>
+                {rateNum}
+            </td>
+            <td>
+                {text}
+            </td>
+            <td>
+                {getDate}
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="{id}">Edit</a> |
+                <a asp-action="Details" asp-route-id="{id}">Details</a> |
+                <a asp-action="Delete" asp-route-id="{id}">Delete</a>
+            </td>
+        </tr>
+    </script>
+
+<script src="~/js/index.js"></script>
+}
