@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication2.Models;
 using WebApplication2.Service;
 
 namespace WebApplication2.Controllers
@@ -11,16 +12,34 @@ namespace WebApplication2.Controllers
         private contactsService service;
 
         public ContactsController()
-		{
+        {
             service = new contactsService();
-		}
+        }
 
         [HttpGet]
         // GET: Contacts
-        public  ActionResult Index()
+        public ActionResult Index()
         {
             return Json(service.GetAll());
         }
+
+        [HttpGet("{name}")]
+        public ActionResult GetContactById(string? name)
+        {
+            if (name == null)
+            { return NotFound(); }
+            var contact = service.get(name);
+            return Json(contact);
+        }
+
+        [HttpPost]
+        public ActionResult GetPost([Bind("name,nickName,server")] Contact contact )
+       
+        {
+            service.Add(contact);
+            return Json(service);
+        }
+
 
         // GET: Contacts/Details/5
         public ActionResult Details(int id)
