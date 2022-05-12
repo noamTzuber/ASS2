@@ -1,65 +1,95 @@
 ﻿@model IEnumerable<LetsTalk.Models.Rate>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Rate page</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	<a asp-action="Create">Create New</a>
 </p>
-<div>
-    Rate average:  
-</div>
+
+@{
+	float sum = 0;
+	float count = 0;
+	float avg = 0;
+	
+	foreach (var item in Model)
+	{
+		sum += @item.RateNum;
+		count++;
+
+	}
+	if (count != 0)
+	{
+		avg = sum / count;
+		<div class ="floatable_div" >
+					Rate average: @avg
+		</div>
+	}
+}
+
 <form asp-action="Index">
-    <input name = "query" id="search" />
-    <input type = "submit" type = "Search" />
+	<input name = "query" id="search" />
+	<input type = "submit" type = "Search" />
 </form>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Rate
-            </th>
-            <th>
-                Notes
-            </th>
-            <th>
-                Date
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RateNum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GetDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+			<th>
+				Rate
+			</th>
+			<th>
+				Notes
+			</th>
+			<th>
+				Date
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.RateNum)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Text)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.GetDate)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>
 
 @section Scripts{
+    <script>
+        var sum=0;
+        var count =0;
+foreach (var item in Model) {
+    sum+=item.RateNum;
+    count++;
+}
+if (Sum!=0) {
+        double avg = sum / count;
+        }
+    </script>
     <script type="text/html" id="template">
          <tr>
             <td>
