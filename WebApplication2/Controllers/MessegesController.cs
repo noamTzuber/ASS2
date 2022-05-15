@@ -9,12 +9,10 @@ namespace WebApplication2.Controllers
     [Route("api/contacts/{name}/[controller]")]
     public class MessegesController : Controller
     {
-        private messegesService Mservice;
         private contactsService Cservice;
 
         public MessegesController()
         {
-            Mservice = new messegesService();
             Cservice = new contactsService();
         }
 
@@ -52,7 +50,7 @@ namespace WebApplication2.Controllers
         {
             var contact = Cservice.get(name);
             contact.MessegesService.Remove(id);
-            return Json(Mservice);
+            return Json(Cservice);
         }
 
         [HttpPut("{id}")]
@@ -60,7 +58,7 @@ namespace WebApplication2.Controllers
         {
             var contact = Cservice.get(name);
             contact.MessegesService.Edit(id, messege);
-            return Json(Mservice);
+            return Json(Cservice);
         }
 
 
