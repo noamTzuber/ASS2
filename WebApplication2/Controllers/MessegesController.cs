@@ -6,14 +6,14 @@ using WebApplication2.Service;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class ContactsController : Controller
+    [Route("[controller]")]
+    public class MessegesController : Controller
     {
-        private contactsService service;
+        private messegesService service;
 
-        public ContactsController()
+        public MessegesController()
         {
-            service = new contactsService();
+            service = new messegesService();
         }
 
         [HttpGet]
@@ -23,36 +23,33 @@ namespace WebApplication2.Controllers
             return Json(service.GetAll());
         }
 
-        [HttpGet("{name}")]
-        public ActionResult GetContactById(string? name)
+        [HttpGet("{id}")]
+        public ActionResult GetMessegeById(int id)
         {
-            if (name == null)
+            if (id == null)
             { return NotFound(); }
-            var contact = service.get(name);
-            return Json(contact);
+            var messege = service.get(id);
+            return Json(messege);
         }
 
         [HttpPost]
-        public ActionResult GetPost([Bind("name,nickName,server")] Contact contact )
+        public ActionResult GetPostMessege([Bind("content")] Messege messege)
         {
-            contact.MessegesService = new messegesService();
-            service.Add(contact);
+            service.Add(messege);
             return Json(service);
         }
 
-        [HttpDelete("{name}")]
-        public ActionResult DeleteContactById(string? name)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteMessegeById(int id)
         {
-            if (name == null)
-            { return NotFound(); }
-            service.Remove(name);
+            service.Remove(id);
             return Json(service);
         }
 
         [HttpPut("{id}")]
-        public ActionResult PutContactById(string id, [Bind("name,nickName,server")] Contact contact)
+        public ActionResult PutContactById(int id, [Bind("content")] Messege messege)
         {
-            service.Edit(id, contact);
+            service.Edit(id, messege);
             return Json(service);
         }
 

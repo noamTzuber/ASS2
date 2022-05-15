@@ -19,3 +19,21 @@ async function post() {
     });
     console.log(r);
 }
+
+async function del() {
+    const r = await fetch('/api/Contacts/hila', {
+        method: 'DELETE'
+    });
+    console.log(r);
+}
+
+async function put() {
+    const r = await fetch('/api/Contacts/hila', {
+        method: 'Put',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: 'hila', nickName: 'hilali', server: 'serve' })
+    });
+    console.log(r);
+}
