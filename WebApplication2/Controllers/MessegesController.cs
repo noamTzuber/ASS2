@@ -6,51 +6,61 @@ using WebApplication2.Service;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/contacts/{name}/[controller]")]
     public class MessegesController : Controller
     {
-        private messegesService service;
+        private messegesService Mservice;
+        private contactsService Cservice;
 
         public MessegesController()
         {
-            service = new messegesService();
+            Mservice = new messegesService();
+            Cservice = new contactsService();
         }
 
         [HttpGet]
         // GET: Contacts
-        public ActionResult Index()
+        public ActionResult Index(string name)
         {
-            return Json(service.GetAll());
+            if (name == null)
+            { return NotFound(); }
+            var contact = Cservice.get(name);
+            return Json(contact.MessegesService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetMessegeById(int id)
+        public ActionResult GetMessegeById(string name, int id)
         {
             if (id == null)
             { return NotFound(); }
-            var messege = service.get(id);
+            var contact = Cservice.get(name);
+            var messege = contact.MessegesService.get(id);
             return Json(messege);
         }
 
+        //ADD messege to user
         [HttpPost]
-        public ActionResult GetPostMessege([Bind("content")] Messege messege)
+        public ActionResult GetPostMessege(string name, [Bind("content")] Messege messege)
         {
-            service.Add(messege);
-            return Json(service);
+            var contact = Cservice.get(name);
+            contact.MessegesService.Add(messege.Content);
+            return Json(Cservice);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteMessegeById(int id)
+        public ActionResult DeleteMessegeById(string name, int id)
         {
-            service.Remove(id);
-            return Json(service);
+            var contact = Cservice.get(name);
+            contact.MessegesService.Remove(id);
+            return Json(Mservice);
         }
 
         [HttpPut("{id}")]
-        public ActionResult PutContactById(int id, [Bind("content")] Messege messege)
+        public ActionResult PutContactById(string name, int id, [Bind("content")] Messege messege)
         {
-            service.Edit(id, messege);
-            return Json(service);
+            var contact = Cservice.get(name);
+            contact.MessegesService.Edit(id, messege);
+            return Json(Mservice);
         }
 
 

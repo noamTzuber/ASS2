@@ -36,6 +36,7 @@ namespace WebApplication2.Controllers
         public ActionResult GetPost([Bind("name,nickName,server")] Contact contact )
         {
             contact.MessegesService = new messegesService();
+            contact.MessegesService.Add("hey");
             service.Add(contact);
             return Json(service);
         }
