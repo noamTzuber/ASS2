@@ -23,8 +23,8 @@ namespace WebApplication2.Controllers
         {
             Contact contact = new Contact();
             contact.Server = server;
-            contact.Name = from;
-            contact.NickName = Uservice.get(from).NickName;
+            contact.Id = from;
+            contact.Name = Uservice.get(from).Name;
             Uservice.get(to).contacts.Add(contact);
             return Json(Uservice);
         }

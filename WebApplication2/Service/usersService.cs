@@ -10,9 +10,9 @@ namespace WebApplication2.Service
         {
             users.Add(user);
         }
-        public User get(string name)
+        public User get(string id)
         {
-            return users.Find(x => x.Name == name);
+            return users.Find(x => x.Id == id);
         }
 
        

@@ -23,17 +23,17 @@ namespace WebApplication2.Controllers
             return Json(service.GetAll());
         }
 
-        [HttpGet("{name}")]
-        public ActionResult GetContactById(string? name)
+        [HttpGet("{id}")]
+        public ActionResult GetContactById(string? id)
         {
-            if (name == null)
+            if (id == null)
             { return NotFound(); }
-            var contact = service.get(name);
+            var contact = service.get(id);
             return Json(contact);
         }
 
         [HttpPost]
-        public ActionResult GetPost([Bind("name,nickName,server")] Contact contact )
+        public ActionResult GetPost([Bind("id,name,server")] Contact contact )
         {
             contact.MessegesService = new messegesService();
             contact.MessegesService.Add("hey");
@@ -41,17 +41,17 @@ namespace WebApplication2.Controllers
             return Json(service);
         }
 
-        [HttpDelete("{name}")]
-        public ActionResult DeleteContactById(string? name)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteContactById(string? id)
         {
-            if (name == null)
+            if (id == null)
             { return NotFound(); }
-            service.Remove(name);
+            service.Remove(id);
             return Json(service);
         }
 
         [HttpPut("{id}")]
-        public ActionResult PutContactById(string id, [Bind("name,nickName,server")] Contact contact)
+        public ActionResult PutContactById(string id, [Bind("id,name,server")] Contact contact)
         {
             service.Edit(id, contact);
             return Json(service);

@@ -13,22 +13,22 @@ namespace WebApplication2.Service
         {
             contacts.Add(contact);
         }
-        public Contact get(string name)
+        public Contact get(string id)
         {
-            return contacts.Find(x => x.Name == name);
+            return contacts.Find(x => x.Id == id);
         }
 
-        public void Remove(string name)
+        public void Remove(string id)
         {
-            Contact c = contacts.Find(x => x.Name == name);
+            Contact c = contacts.Find(x => x.Id == id);
             contacts.Remove(c);
         }
 
-        public void Edit(string name, Contact contact)
+        public void Edit(string id, Contact contact)
         {
-            contacts.Find(x => x.Name == name).Name = contact.Name;
-            contacts.Find(x => x.Name == name).NickName = contact.NickName;
-            contacts.Find(x => x.Name == name).Server = contact.Server;
+            contacts.Find(x => x.Id == id).Id = contact.Id;
+            contacts.Find(x => x.Id == id).Name = contact.Name;
+            contacts.Find(x => x.Id == id).Server = contact.Server;
         }
     }
 }
