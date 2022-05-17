@@ -30,6 +30,17 @@ namespace WebApplication2.Controllers
             return Json(Uservice.GetAll());
         }
 
+        [HttpPost("user")]
+        public ActionResult GetIsUser([Bind("id,password")] User user)
+        {
+            if (Uservice.UserExist(user.Id) == false)
+                return BadRequest("The userName is not exist.");            
+            if (Uservice.UserPasswordCorrect(user.Id, user.Password) == false)
+                return BadRequest("The password is not correct.");
+
+            return Json(Uservice.get(user.Id));
+        }
+
 
         //ADD messege to user
         [HttpPost("invitation")]

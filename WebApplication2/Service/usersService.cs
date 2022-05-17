@@ -20,6 +20,19 @@ namespace WebApplication2.Service
             return users;
         }
 
+        public bool UserExist(string id)
+        {
+            if (users.Find(x => x.Id == id) == null) return false;
+            return true;
+        }
+
+
+        public bool UserPasswordCorrect(string id, string password)
+        {
+            if (users.Find(x => x.Id == id).Password == password) return true;
+            return false;
+        }
+        
 
     }
 }

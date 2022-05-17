@@ -93,3 +93,15 @@ async function getAllUsers() {
     const d = await r.json();
     console.log(d);
 }
+
+    async function getUser() {
+    const r = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: 'userID', password: 'orpaz12345' })
+    });
+    console.log(r);
+}
+
