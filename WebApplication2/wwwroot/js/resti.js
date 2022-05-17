@@ -1,42 +1,39 @@
-﻿async function getAll() {
-    const r = await fetch('/api/Contacts');
+﻿async function getAllContacts() {
+    const r = await fetch('/api/userID/Contacts');
     const d = await r.json();
     console.log(d);
 }
-async function get() {
-    const r = await fetch('/api/Contacts/hila');
+async function getContactData() {
+    const r = await fetch('/api/userID/Contacts/hila');
+    const d = await r.json();
+    console.log(d);
+}
+
+async function getMesseges() {
+    const r = await fetch('/api/userID/Contacts/hila/messeges');
     const d = await r.json();
     console.log(d);
 }
 
 async function getMessege() {
-    const r = await fetch('/api/Contacts/hila/messeges');
+    const r = await fetch('/api/userID/Contacts/hila/messeges/1');
     const d = await r.json();
     console.log(d);
 }
-async function post() {
-    const r = await fetch('/api/Contacts', {
+
+async function addContact() {
+    const r = await fetch('/api/userID/Contacts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: 'hila', name: 'hilah', server: 'serve' })
-    });
-    console.log(r);
-}
-async function posti() {
-    const r = await fetch('/api/Contacts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: 'hila', name: 'hilah', server: 'serve' })
+        body: JSON.stringify({ id: 'hila', name: 'hilah', server: 'serve'})
     });
     console.log(r);
 }
 
 async function postMessege() {
-    const r = await fetch('/api/Contacts/hila/messeges', {
+    const r = await fetch('/api/userID/Contacts/hila/messeges', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -45,22 +42,22 @@ async function postMessege() {
     });
     console.log(r);
 }
-async function del() {
-    const r = await fetch('/api/Contacts/hila', {
+async function delContact() {
+    const r = await fetch('/api/userID/Contacts/hila', {
         method: 'DELETE'
     });
     console.log(r);
 }
 
 async function delMessege() {
-    const r = await fetch('/api/Contacts/hila/messeges/1', {
+    const r = await fetch('/api/userID/Contacts/hila/messeges/1', {
         method: 'DELETE'
     });
     console.log(r);
 }
 
-async function put() {
-    const r = await fetch('/api/Contacts/hila', {
+async function putContact() {
+    const r = await fetch('/api/userID/Contacts/hila', {
         method: 'Put',
         headers: {
             'Content-Type': 'application/json'
@@ -70,7 +67,7 @@ async function put() {
     console.log(r);
 }
 async function putMessege() {
-    const r = await fetch('/api/Contacts/hila/messeges/2', {
+    const r = await fetch('/api/userID/Contacts/hila/messeges/2', {
         method: 'Put',
         headers: {
             'Content-Type': 'application/json'
@@ -78,4 +75,21 @@ async function putMessege() {
         body: JSON.stringify({ content: 'stammmm' })
     });
     console.log(r);
+}
+
+async function postUser() {
+    const r = await fetch('/api/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: 'userID', name: 'orpi', password: 'orpaz12345'})
+    });
+    console.log(r);
+}
+
+async function getAllUsers() {
+    const r = await fetch('/api/users');
+    const d = await r.json();
+    console.log(d);
 }

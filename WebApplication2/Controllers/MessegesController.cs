@@ -6,61 +6,61 @@ using WebApplication2.Service;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/contacts/{id}/[controller]")]
+    [Route("api/{userID}/contacts/{id}/[controller]")]
     public class MessegesController : Controller
     {
-        private contactsService Cservice;
+        private usersService Uservice;
 
         public MessegesController()
         {
-            Cservice = new contactsService();
+            Uservice = new usersService();
         }
 
         [HttpGet]
         // GET: Contacts
-        public ActionResult Index(string id)
+        public ActionResult Index(string userID, string id)
         {
             if (id == null)
             { return NotFound(); }
-            var contact = Cservice.get(id);
+            var contact = Uservice.get(userID).contacts.get(id);
             return Json(contact.MessegesService.GetAll());
         }
 
         [HttpGet("{id2}")]
-        public ActionResult GetMessegeById(string id, int id2)
+        public ActionResult GetMessegeById(string userID, string id, int id2)
         {
             if (id2 == null)
             { return NotFound(); }
-            var contact = Cservice.get(id);
+            var contact = Uservice.get(userID).contacts.get(id);
             var messege = contact.MessegesService.get(id2);
             return Json(messege);
         }
 
         //ADD messege to user
         [HttpPost]
-        public ActionResult GetPostMessege(string id, [Bind("content")] Messege messege)
+        public ActionResult GetPostMessege(string userID, string id, [Bind("content")] Messege messege)
         {
-            var contact = Cservice.get(id);
+            var contact = Uservice.get(userID).contacts.get(id);
             contact.Last = messege.Content;
             contact.LastDate = DateTime.Now;
             contact.MessegesService.Add(messege.Content);
-            return Json(Cservice);
+            return Json(Uservice);
         }
 
         [HttpDelete("{id2}")]
-        public ActionResult DeleteMessegeById(string id, int id2)
+        public ActionResult DeleteMessegeById(string userID, string id, int id2)
         {
-            var contact = Cservice.get(id);
+            var contact = Uservice.get(userID).contacts.get(id);
             contact.MessegesService.Remove(id2);
-            return Json(Cservice);
+            return Json(Uservice);
         }
 
         [HttpPut("{id2}")]
-        public ActionResult PutContactById(string id, int id2, [Bind("content")] Messege messege)
+        public ActionResult PutContactById(string userID, string id, int id2, [Bind("content")] Messege messege)
         {
-            var contact = Cservice.get(id);
+            var contact = Uservice.get(userID).contacts.get(id);
             contact.MessegesService.Edit(id2, messege);
-            return Json(Cservice);
+            return Json(Uservice);
         }
 
 

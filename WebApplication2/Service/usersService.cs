@@ -15,6 +15,11 @@ namespace WebApplication2.Service
             return users.Find(x => x.Id == id);
         }
 
-       
+        public List<User> GetAll()
+        {
+            return users;
+        }
+
+
     }
 }

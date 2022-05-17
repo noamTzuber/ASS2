@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
 using WebApplication2.Service;
@@ -6,55 +7,58 @@ using WebApplication2.Service;
 namespace WebApplication2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/{userID}/[controller]")]
     public class ContactsController : Controller
     {
+        private usersService Uservice;
         private contactsService service;
 
         public ContactsController()
         {
+            Uservice = new usersService();
             service = new contactsService();
         }
 
         [HttpGet]
         // GET: Contacts
-        public ActionResult Index()
+        public ActionResult Index(string userID)
         {
-            return Json(service.GetAll());
+            return Json(Uservice.get(userID).contacts.GetAll());
         }
 
-        [HttpGet("{id}")]
-        public ActionResult GetContactById(string? id)
+        [HttpGet("{id2}")]
+        public ActionResult GetContactById(string? id2, string userID)
         {
-            if (id == null)
-            { return NotFound(); }
-            var contact = service.get(id);
-            return Json(contact);
+            User user = Uservice.get(userID);
+            return Json(user.contacts.get(id2));
         }
 
         [HttpPost]
-        public ActionResult GetPost([Bind("id,name,server")] Contact contact )
+        public ActionResult GetPost(string userID, [Bind("id,name,server")] Contact contact)
         {
             contact.MessegesService = new messegesService();
             contact.MessegesService.Add("hey");
-            service.Add(contact);
-            return Json(service);
+
+           User user = Uservice.get(userID);
+
+            user.contacts.Add(contact);
+            return Json(Uservice);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteContactById(string? id)
+        public ActionResult DeleteContactById(string userID, string? id)
         {
             if (id == null)
             { return NotFound(); }
-            service.Remove(id);
-            return Json(service);
+            Uservice.get(userID).contacts.Remove(id);
+            return Json(Uservice);
         }
 
         [HttpPut("{id}")]
-        public ActionResult PutContactById(string id, [Bind("id,name,server")] Contact contact)
+        public ActionResult PutContactById(string userID, string id, [Bind("id,name,server")] Contact contact)
         {
-            service.Edit(id, contact);
-            return Json(service);
+            Uservice.get(userID).contacts.Edit(id, contact);
+            return Json(Uservice);
         }
 
 

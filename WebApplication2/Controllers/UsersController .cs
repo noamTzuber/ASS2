@@ -16,6 +16,20 @@ namespace WebApplication2.Controllers
             Uservice = new usersService();
         }
 
+        [HttpPost("add")]
+        public ActionResult AddNewUser([Bind("id,name,password")] User user)
+        {
+            user.contacts = new contactsService();
+            Uservice.Add(user);
+            return Json(Uservice);
+        }
+
+        [HttpGet("users")]
+        public ActionResult GetUserList()
+        {
+            return Json(Uservice.GetAll());
+        }
+
 
         //ADD messege to user
         [HttpPost("invitation")]
