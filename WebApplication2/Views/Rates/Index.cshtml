@@ -3,13 +3,8 @@
 @{
 	ViewData["Title"] = "Index";
 }
-
+<body>
 <h1>Rate page</h1>
-
-<p>
-	<a asp-action="Create">Create New</a>
-</p>
-
 @{
 	float sum = 0;
 	float count = 0;
@@ -24,14 +19,19 @@
 	if (count != 0)
 	{
 		avg = sum / count;
+		<h2>
 		<div class ="floatable_div" >
 					Rate average: @avg
 		</div>
+		</h2>
 	}
 }
+<p id = "createNew">
+	<a asp-action="Create">Craete new rate</a>
+</p>
 
-<form asp-action="Index">
-	<input name = "query" id="search" />
+<form asp-action="Index" id ="searchMiddele">
+	<input name = "query" id="search" placeholder="search.." />
 	<input type = "submit" type = "Search" />
 </form>
 <table class="table">
@@ -77,6 +77,7 @@
 		}
 	</tbody>
 </table>
+</body>
 
 @section Scripts{
     <script>
