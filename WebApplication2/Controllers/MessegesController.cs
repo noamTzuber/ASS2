@@ -41,6 +41,8 @@ namespace WebApplication2.Controllers
         public ActionResult GetPostMessege(string id, [Bind("content")] Messege messege)
         {
             var contact = Cservice.get(id);
+            contact.Last = messege.Content;
+            contact.LastDate = DateTime.Now;
             contact.MessegesService.Add(messege.Content);
             return Json(Cservice);
         }
