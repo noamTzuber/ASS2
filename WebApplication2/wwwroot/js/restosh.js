@@ -100,7 +100,7 @@ async function getAllUsers() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: 'userID1234', password: '12345' })
+        body: JSON.stringify({ id: 'userID123', password: 'orpaz12345' })
     });
     console.log(r);
 }
