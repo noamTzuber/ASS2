@@ -94,6 +94,12 @@ async function getAllUsers() {
     console.log(d);
 }
 
+async function GetIsActive() {
+    const r = await fetch('/api/active');
+    const d = await r.json();
+    console.log(d);
+}
+
     async function getUser() {
     const r = await fetch('/api/user', {
         method: 'POST',

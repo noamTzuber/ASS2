@@ -34,6 +34,10 @@ namespace WebApplication2.Controllers
             if (reg.IsMatch(user.Password) == false)
                 return BadRequest(string.Format("Your password must contain at least one letter and one number."));
 
+            foreach (User u in Uservice.GetAll())
+                u.IsActive = false;
+            
+            user.IsActive = true;  
             user.contacts = new contactsService();
             Uservice.Add(user);
             return Json(Uservice);
@@ -53,7 +57,23 @@ namespace WebApplication2.Controllers
             if (Uservice.UserPasswordCorrect(user.Id, user.Password) == false)
                 return BadRequest("The password is not correct.");
 
+            foreach (User u in Uservice.GetAll())
+                u.IsActive = false;
+
+            user.IsActive = true;
             return Json(Uservice.get(user.Id));
+        }
+
+        [HttpGet("active")]
+        public ActionResult GetIsActive()
+        {
+            foreach (User u in Uservice.GetAll())
+            {
+                if (u.IsActive == true)
+                    return Json(Uservice.get(u.Id));
+            }
+               
+            return BadRequest("Nobody is active.");
         }
 
 
