@@ -37,8 +37,8 @@ namespace WebApplication2.Controllers
         public ActionResult GetPost(string userID, [Bind("id,name,server")] Contact contact)
         {
             contact.MessegesService = new messegesService();
-            contact.MessegesService.Add("hey");
-
+            contact.LastDate = DateTime.Now;
+            contact.Last = "";
            User user = Uservice.get(userID);
 
             user.contacts.Add(contact);
