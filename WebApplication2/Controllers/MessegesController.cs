@@ -22,8 +22,8 @@ namespace WebApplication2.Controllers
         {
             if (id == null)
             { return NotFound(); }
-            var contact = Uservice.get(userID).contacts.get(id);
-            return Json(contact.MessegesService.GetAll());
+            var contact = Uservice.get(userID).contacts.Find(x => x.Id == id);
+            return Json(contact.Messeges);
         }
 
         [HttpGet("{id2}")]
@@ -31,8 +31,8 @@ namespace WebApplication2.Controllers
         {
             if (id2 == null)
             { return NotFound(); }
-            var contact = Uservice.get(userID).contacts.get(id);
-            var messege = contact.MessegesService.get(id2);
+            var contact = Uservice.get(userID).contacts.Find(x => x.Id == id);
+            var messege = contact.Messeges.Find(x => x.Id == id2);
             return Json(messege);
         }
 
@@ -40,26 +40,40 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public ActionResult GetPostMessege(string userID, string id, [Bind("content")] Messege messege)
         {
-            var contact = Uservice.get(userID).contacts.get(id);
+
+            
+            var contact = Uservice.get(userID).contacts.Find(x => x.Id == id);
             contact.Last = messege.Content;
             contact.LastDate = DateTime.Now;
-            contact.MessegesService.Add(messege.Content);
+            messege.Created = DateTime.Now;
+            int nextid;
+            if (contact.Messeges.Count == 0)
+                nextid = 0;
+            else
+                nextid = contact.Messeges.Max(X => X.Id) + 1;
+
+            messege.Id = nextid;
+            messege.Sent = true;
+            contact.Messeges.Add(messege);
             return Json(Uservice);
         }
 
         [HttpDelete("{id2}")]
         public ActionResult DeleteMessegeById(string userID, string id, int id2)
         {
-            var contact = Uservice.get(userID).contacts.get(id);
-            contact.MessegesService.Remove(id2);
+            var contact = Uservice.get(userID).contacts.Find(x => x.Id == id);
+             Messege c = contact.Messeges.Find(x => x.Id == id2);
+            contact.Messeges.Remove(c);
             return Json(Uservice);
         }
 
         [HttpPut("{id2}")]
         public ActionResult PutContactById(string userID, string id, int id2, [Bind("content")] Messege messege)
         {
-            var contact = Uservice.get(userID).contacts.get(id);
-            contact.MessegesService.Edit(id2, messege);
+            var contact = Uservice.get(userID).contacts.Find(x => x.Id == id);
+            contact.Messeges.Find(x => x.Id == id2).Content = messege.Content;
+            contact.Messeges.Find(x => x.Id == id2).Created = DateTime.Now;
+
             return Json(Uservice);
         }
 

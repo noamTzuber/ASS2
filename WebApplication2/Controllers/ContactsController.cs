@@ -23,20 +23,20 @@ namespace WebApplication2.Controllers
         // GET: Contacts
         public ActionResult Index(string userID)
         {
-            return Json(Uservice.get(userID).contacts.GetAll());
+            return Json(Uservice.get(userID).contacts);
         }
 
         [HttpGet("{id2}")]
         public ActionResult GetContactById(string? id2, string userID)
         {
             User user = Uservice.get(userID);
-            return Json(user.contacts.get(id2));
+            return Json(user.contacts.Find(x => x.Id == id2));
         }
 
         [HttpPost]
         public ActionResult GetPost(string userID, [Bind("id,name,server")] Contact contact)
         {
-            contact.MessegesService = new messegesService();
+            contact.Messeges = new List<Messege>();
             contact.LastDate = DateTime.Now;
             contact.Last = "";
            User user = Uservice.get(userID);
@@ -50,14 +50,17 @@ namespace WebApplication2.Controllers
         {
             if (id == null)
             { return NotFound(); }
-            Uservice.get(userID).contacts.Remove(id);
+            Contact c = Uservice.get(userID).contacts.Find(x => x.Id == id);
+            Uservice.get(userID).contacts.Remove(c);
             return Json(Uservice);
         }
 
         [HttpPut("{id}")]
         public ActionResult PutContactById(string userID, string id, [Bind("id,name,server")] Contact contact)
         {
-            Uservice.get(userID).contacts.Edit(id, contact);
+            Uservice.get(userID).contacts.Find(x => x.Id == id).Id = contact.Id;
+            Uservice.get(userID).contacts.Find(x => x.Id == id).Name = contact.Name;
+            Uservice.get(userID).contacts.Find(x => x.Id == id).Server = contact.Server;
             return Json(Uservice);
         }
 

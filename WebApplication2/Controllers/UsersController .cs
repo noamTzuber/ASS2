@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
             if (reg.IsMatch(user.Password) == false)
                 return BadRequest(string.Format("Your password must contain at least one letter and one number."));
 
-            user.contacts = new contactsService();
+            user.contacts = new List<Contact>();
             Uservice.Add(user);
             return Json(Uservice);
         }
@@ -70,7 +70,21 @@ namespace WebApplication2.Controllers
         [HttpPost("transfer")]
         public ActionResult GetPostTransfer(string from, string to, string content)
         {
-            Uservice.get(to).contacts.get(from).MessegesService.Add(content);
+            int nextid;
+            if (Uservice.get(to).contacts.Find(x => x.Id == from).Messeges.Count == 0)
+            {
+                nextid = 0;
+            }
+            else
+            {
+                nextid = Uservice.get(to).contacts.Find(x => x.Id == from).Messeges.Max(X => X.Id) + 1;
+            }
+            Messege messege = new Messege();
+            messege.Content = content;
+            messege.Created = DateTime.Now;
+            messege.Id = nextid;
+            messege.Sent = true;
+            Uservice.get(to).contacts.Find(x => x.Id == from).Messeges.Add(messege);
             return Json(Uservice);
         }
 

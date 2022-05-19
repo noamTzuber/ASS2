@@ -32,6 +32,17 @@ async function addContact() {
     console.log(r);
 }
 
+async function addContact2() {
+    const r = await fetch('/api/orpaz1234/Contacts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: 'hilaorpaz1234', name: 'hilah', server: 'serve' })
+    });
+    console.log(r);
+}
+
 async function postMessege() {
     const r = await fetch('/api/userID123/Contacts/hila/messeges', {
         method: 'POST',
@@ -84,6 +95,17 @@ async function postUser() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ id: 'userID123', name: 'orpi', password: 'orpaz12345'})
+    });
+    console.log(r);
+}
+
+async function postUser2() {
+    const r = await fetch('/api/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: 'orpaz1234', name: 'orpi', password: 'orpaz12345' })
     });
     console.log(r);
 }
