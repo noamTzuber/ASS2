@@ -5,7 +5,7 @@ namespace WebApplication2.Service
 {
     public class messegesService
     {
-        private static List<Messege> messeges = new List<Messege>();
+        private  List<Messege> messeges = new List<Messege>();
         
         public List<Messege> GetAll()
 

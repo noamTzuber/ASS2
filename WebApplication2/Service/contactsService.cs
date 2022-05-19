@@ -4,7 +4,7 @@ namespace WebApplication2.Service
 {
     public class contactsService
     {
-        private static List<Contact> contacts = new List<Contact>();
+        private List<Contact> contacts = new List<Contact>();
         public List<Contact> GetAll()
         {
             return contacts;
