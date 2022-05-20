@@ -127,3 +127,13 @@ async function getAllUsers() {
     console.log(r);
 }
 
+async function transferMessege() {
+    const r = await fetch('/http://' + service + '/api/transfer', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ from: 'orpaz1234', to: 'userID123' content: 'hi' })
+    });
+    console.log(r);
+}

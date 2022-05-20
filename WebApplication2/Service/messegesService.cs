@@ -12,7 +12,7 @@ namespace WebApplication2.Service
         {
             return messeges;
         }
-        public void Add(string content)
+        public void Add(string content, bool sent)
         {
             int nextid;
             if (messeges.Count ==0)
@@ -26,7 +26,7 @@ namespace WebApplication2.Service
             messege.Content = content;
             messege.Created = DateTime.Now;
             messege.Id = nextid;
-            messege.Sent = true;
+            messege.Sent = sent;
             messeges.Add(messege);
         }
         public Messege get(int id)

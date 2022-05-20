@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
 using WebApplication2.Service;
-
+using System.Net;
+using System.Collections.Specialized;
 namespace WebApplication2.Controllers
 {
     [ApiController]
@@ -38,12 +39,36 @@ namespace WebApplication2.Controllers
 
         //ADD messege to user
         [HttpPost]
-        public ActionResult GetPostMessege(string userID, string id, [Bind("content")] Messege messege)
+        public async Task<ActionResult> GetPostMessegeAsync(string userID, string id, [Bind("content")] Messege messege)
         {
             var contact = Uservice.get(userID).contacts.get(id);
+            var server = contact.Server;
             contact.Last = messege.Content;
             contact.LastDate = DateTime.Now;
-            contact.MessegesService.Add(messege.Content);
+            contact.MessegesService.Add(messege.Content, true);
+            // HttpClient client = new HttpClient();
+            //var values = new Dictionary<string, string>
+            //{
+            // { "from", userID },
+            //  { "to", id },
+            //  { "content", messege.Content }
+            //  };
+
+            //  var content = new FormUrlEncodedContent(values);
+
+            //  var response = await client.PostAsync("http://" + server + "/api/transfer", content);
+
+            //   var responseString = await response.Content.ReadAsStringAsync();
+            var wb = new WebClient();
+            var data = new NameValueCollection();
+            string url = "http://" + server + "/api/transfer";
+            data["from"] = userID;
+            data["to"] = id;
+            data["content"] = messege.Content;
+
+            var response = wb.UploadValues(url, "POST", data);
+
+
             return Json(Uservice);
         }
 

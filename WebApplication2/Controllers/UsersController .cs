@@ -20,6 +20,7 @@ namespace WebApplication2.Controllers
         [HttpPost("add")]
         public ActionResult AddNewUser([Bind("id,name,password")] User user)
         {
+            user.UserServer = "localhost:5281";
             Regex reg = new Regex(@"^(?=.*[a-zA-Z])(?=.*[0-9]).+$");
 
             if (Uservice.UserExist(user.Id) == true)
@@ -56,21 +57,25 @@ namespace WebApplication2.Controllers
         }
 
         //ADD messege to user
-        [HttpPost("invitation")]
-        public ActionResult GetPostInvitation(string from, string to, string server)
+        [HttpPost("invitations")]
+        public ActionResult GetPostInvitation([Bind("from,to,server")] Invitation invitation)
         {
             Contact contact = new Contact();
-            contact.Server = server;
-            contact.Id = from;
-            contact.Name = Uservice.get(from).Name;
-            Uservice.get(to).contacts.Add(contact);
+            contact.Server = invitation.Server;
+            contact.Id = invitation.From;
+            contact.MessegesService = new messegesService();
+            contact.LastDate = DateTime.Now;
+            contact.Last = "";
+            contact.Name = Uservice.get(invitation.From).Name;
+            
+            Uservice.get(invitation.To).contacts.Add(contact);
             return Json(Uservice);
         }
 
         [HttpPost("transfer")]
-        public ActionResult GetPostTransfer(string from, string to, string content)
+        public ActionResult GetPostTransfer([Bind("from,to,content")] Transfer transfer)
         {
-            Uservice.get(to).contacts.get(from).MessegesService.Add(content);
+            Uservice.get(transfer.To).contacts.get(transfer.From).MessegesService.Add(transfer.Content, false);
             return Json(Uservice);
         }
 
