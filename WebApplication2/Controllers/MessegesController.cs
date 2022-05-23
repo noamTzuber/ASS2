@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Models;
 using WebApplication2.Service;
 using System.Net;
+using System.Text;
+using Newtonsoft.Json;
 using System.Collections.Specialized;
 namespace WebApplication2.Controllers
 {
@@ -59,16 +61,50 @@ namespace WebApplication2.Controllers
             //  var response = await client.PostAsync("http://" + server + "/api/transfer", content);
 
             //   var responseString = await response.Content.ReadAsStringAsync();
-            var wb = new WebClient();
-            var data = new NameValueCollection();
-            string url = "http://" + server + "/api/transfer";
-            data["from"] = userID;
-            data["to"] = id;
-            data["content"] = messege.Content;
+            // var wb = new WebClient();
+            //  var data = new NameValueCollection();
+            //  string url = "http://" + server + "/api/transfer";
+            //  data["from"] = userID;
+            // data["to"] = id;
+            //  data["content"] = messege.Content;
 
-            var response = wb.UploadValues(url, "POST", data);
+            //   var response = wb.UploadValues(url, "POST", data);
+            //var url = "http://" + server + "/api/transfer";
 
+            //var httpRequest = (HttpWebRequest)WebRequest.Create(url);
+            //httpRequest.Method = "POST";
 
+            //httpRequest.Accept = "application/json";
+            // httpRequest.ContentType = "application/json";
+
+             
+            //using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
+            //{
+            //    streamWriter.Write(data);
+            //}
+
+            //var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
+            //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            //{
+            //  var result = streamReader.ReadToEnd();
+            //}
+
+            //  Console.WriteLine(httpResponse.StatusCode);
+
+            var transfer = new Transfer();
+            transfer.Content = messege.Content;
+            transfer.From = userID;
+            transfer.To = id;
+            var json = JsonConvert.SerializeObject(transfer);
+            var d = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var url = "http://" + server + "/api/transfer";
+            using var client = new HttpClient();
+
+            var response = await client.PostAsync(url, d);
+
+            var result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
             return Json(Uservice);
         }
 
