@@ -12,6 +12,9 @@ namespace WebApplication2.Service
         }
         public User get(string id)
         {
+            User u = users.Find(x => x.Id == id);
+            if (u == null)
+                return null;
             return users.Find(x => x.Id == id);
         }
 

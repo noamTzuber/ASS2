@@ -67,8 +67,17 @@ namespace WebApplication2.Controllers
             contact.LastDate = DateTime.Now;
             contact.Last = "";
             contact.Name = Uservice.get(invitation.From).Name;
+            if (Uservice.get(invitation.To) == null)
+                return BadRequest("can't add this contact");
             
-            Uservice.get(invitation.To).contacts.Add(contact);
+            if (invitation.To == invitation.From)
+                return BadRequest("can't add this contact");
+            if (Uservice.get(invitation.From).contacts.get(invitation.To) != null)
+                return BadRequest("can't add this contact");
+
+            else
+                Uservice.get(invitation.To).contacts.Add(contact);
+
             return Json(Uservice);
         }
 
