@@ -6,22 +6,6 @@ using WebApplication2.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
-
-builder.Services.AddRazorPages();
-builder.Services.AddSignalR();
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.WithOrigins("https://example.com")
-                .AllowAnyHeader()
-                .WithMethods("GET", "POST")
-                .AllowCredentials();
-        });
-});
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +17,7 @@ builder.Services.AddCors(options =>
     builder =>
     {
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
     });
 });
 builder.Services.AddDbContext<WebApplication2Context>(options =>
@@ -40,7 +25,7 @@ builder.Services.AddDbContext<WebApplication2Context>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSignalR();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -60,14 +45,13 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.MapRazorPages();
-app.MapHub<MyHub>("/myHub");
-
-// UseCors must be called before MapHub.
-app.UseCors();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<MyHub>("/myHub");
+});
 
 app.Run();
