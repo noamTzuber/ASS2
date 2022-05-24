@@ -1,8 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication2.Data;
+using WebApplication2.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+
+
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("https://example.com")
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST")
+                .AllowCredentials();
+        });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,6 +60,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.MapRazorPages();
+app.MapHub<MyHub>("/myHub");
+
+// UseCors must be called before MapHub.
+app.UseCors();
 
 app.MapControllerRoute(
     name: "default",
