@@ -48,49 +48,6 @@ namespace WebApplication2.Controllers
             contact.Last = messege.Content;
             contact.LastDate = DateTime.Now;
             contact.MessegesService.Add(messege.Content, true);
-            // HttpClient client = new HttpClient();
-            //var values = new Dictionary<string, string>
-            //{
-            // { "from", userID },
-            //  { "to", id },
-            //  { "content", messege.Content }
-            //  };
-
-            //  var content = new FormUrlEncodedContent(values);
-
-            //  var response = await client.PostAsync("http://" + server + "/api/transfer", content);
-
-            //   var responseString = await response.Content.ReadAsStringAsync();
-            // var wb = new WebClient();
-            //  var data = new NameValueCollection();
-            //  string url = "http://" + server + "/api/transfer";
-            //  data["from"] = userID;
-            // data["to"] = id;
-            //  data["content"] = messege.Content;
-
-            //   var response = wb.UploadValues(url, "POST", data);
-            //var url = "http://" + server + "/api/transfer";
-
-            //var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-            //httpRequest.Method = "POST";
-
-            //httpRequest.Accept = "application/json";
-            // httpRequest.ContentType = "application/json";
-
-             
-            //using (var streamWriter = new StreamWriter(httpRequest.GetRequestStream()))
-            //{
-            //    streamWriter.Write(data);
-            //}
-
-            //var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            //{
-            //  var result = streamReader.ReadToEnd();
-            //}
-
-            //  Console.WriteLine(httpResponse.StatusCode);
-
             var transfer = new Transfer();
             transfer.Content = messege.Content;
             transfer.From = userID;

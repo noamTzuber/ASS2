@@ -84,7 +84,10 @@ namespace WebApplication2.Controllers
         [HttpPost("transfer")]
         public ActionResult GetPostTransfer([Bind("from,to,content")] Transfer transfer)
         {
-            Uservice.get(transfer.To).contacts.get(transfer.From).MessegesService.Add(transfer.Content, false);
+            var contact = Uservice.get(transfer.To).contacts.get(transfer.From);
+            contact.Last = transfer.Content;
+            contact.LastDate = DateTime.Now;
+           contact.MessegesService.Add(transfer.Content, false);
             return Json(Uservice);
         }
 
