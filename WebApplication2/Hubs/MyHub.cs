@@ -9,5 +9,9 @@ namespace WebApplication2.Hubs
         {
             await Clients.All.SendAsync("ReceiveContact", value);
         }
+        public async Task AddMessege(string value, string person)
+        {
+            await Clients.All.SendAsync("ReceiveMessege", value, person);
+        }
     }
 }
