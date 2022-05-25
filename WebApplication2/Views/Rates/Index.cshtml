@@ -26,18 +26,13 @@
 		</h2>
 	}
 }
-<p id = "createNew">
-	<a asp-action="Create">Craete new rate</a>
-</p>
 
-<p id = "orpaz">
-	<a class="page-scroll" href='http://localhost:3000'>return to login page</a>
-</p>
 
 <form asp-action="Index" id ="searchMiddele">
 	<input name = "query" id="search" placeholder="search.." />
 	<input type = "submit" type = "Search" />
 </form>
+
 <table class="table">
 	<thead>
 		<tr>
@@ -81,6 +76,9 @@
 		}
 	</tbody>
 </table>
+<a asp-action="Create" class="btn btn-primary" role="button">Creat new rate</a>
+<a href='http://localhost:3000' class="btn btn-primary" role="button">Back home page</a>
+
 </body>
 
 @section Scripts{
