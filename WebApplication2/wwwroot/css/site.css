@@ -1,3 +1,4 @@
+
 html {
   font-size: 14px;
 }
@@ -46,19 +47,31 @@ h2 {
     background-size: 80%;
     position: relative;
 }
-#search {
-    font-family: 'Helvetica Neue', sans-serif;
+
+#input1 {
     width: 25%;
+}
+
+#search1 {
+    font-family: 'Helvetica Neue', sans-serif;
+    width: 7%;
     height: 30px;
     margin: 8px 0;
     font-size: medium;
-    border-radius: 2%;
+    display: inline-block;
+    text-align: center;
+    margin: auto;
+    padding-bottom: 2%;
 }
+#input1, #search1 {
+    display: inline;
+}
+
 #searchMiddele {
     margin-top: 1%;
     background-size: 80%;
-    position: relative;
     margin-top: 1%;
     background-size: 80%;
     position: relative;
 }
+
