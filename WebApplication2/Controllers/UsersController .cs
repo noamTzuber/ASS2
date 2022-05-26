@@ -4,6 +4,9 @@ using WebApplication2.Models;
 using WebApplication2.Service;
 using System;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.SignalR;
+using WebApplication2.Hubs;
+
 namespace WebApplication2.Controllers
 {
     [ApiController]
@@ -11,10 +14,12 @@ namespace WebApplication2.Controllers
     public class UsersController : Controller
     {
         private usersService Uservice;
+        private readonly IHubContext<MyHub> _myHubContext;
 
-        public UsersController()
+        public UsersController(IHubContext<MyHub> myHubContext)
         {
             Uservice = new usersService();
+            _myHubContext = myHubContext;
         }
 
         [HttpPost("add")]
@@ -63,20 +68,26 @@ namespace WebApplication2.Controllers
             Contact contact = new Contact();
             contact.Server = invitation.Server;
             contact.Id = invitation.From;
+            contact.Name = invitation.From;
             contact.MessegesService = new messegesService();
             contact.LastDate = DateTime.Now;
             contact.Last = "";
-            contact.Name = Uservice.get(invitation.From).Name;
-            if (Uservice.get(invitation.To) == null)
-                return BadRequest("can't add this contact");
-            
-            if (invitation.To == invitation.From)
-                return BadRequest("can't add this contact");
-            if (Uservice.get(invitation.From).contacts.get(invitation.To) != null)
-                return BadRequest("can't add this contact");
+            if (invitation.Server == "localhost:5281") {
+                contact.Name = Uservice.get(invitation.From).Name;
+                if (Uservice.get(invitation.To) == null)
+                    return BadRequest("can't add this contact");
 
+                if (invitation.To == invitation.From)
+                    return BadRequest("can't add this contact");
+                if (Uservice.get(invitation.From).contacts.get(invitation.To) != null)
+                    return BadRequest("can't add this contact");
+            
             else
                 Uservice.get(invitation.To).contacts.Add(contact);
+            }
+            else
+                Uservice.get(invitation.To).contacts.Add(contact);
+            _myHubContext.Clients.All.SendAsync("ReceiveContact", invitation.To);
 
             return Json(Uservice);
         }
@@ -87,7 +98,8 @@ namespace WebApplication2.Controllers
             var contact = Uservice.get(transfer.To).contacts.get(transfer.From);
             contact.Last = transfer.Content;
             contact.LastDate = DateTime.Now;
-           contact.MessegesService.Add(transfer.Content, false);
+            contact.MessegesService.Add(transfer.Content, false);
+            _myHubContext.Clients.All.SendAsync("ReceiveMessege", transfer.From, transfer.To);
             return Json(Uservice);
         }
 

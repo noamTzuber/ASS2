@@ -55,7 +55,7 @@ namespace WebApplication2.Controllers
             var json = JsonConvert.SerializeObject(transfer);
             var d = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var url = "http://" + server + "/api/transfer";
+            var url = "https://" + server + "/api/transfer";
             using var client = new HttpClient();
 
             var response = await client.PostAsync(url, d);

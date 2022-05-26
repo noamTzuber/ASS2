@@ -137,3 +137,13 @@ async function transferMessege() {
     });
     console.log(r);
 }
+async function invitation() {
+    const r = await fetch('/http://' + service + '/api/invitations', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ from: 'yossi', to: 'orpaz1234' server: 'localhost:1234' })
+    });
+    console.log(r);
+}
