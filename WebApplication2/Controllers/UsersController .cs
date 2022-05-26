@@ -89,7 +89,7 @@ namespace WebApplication2.Controllers
                 Uservice.get(invitation.To).contacts.Add(contact);
             _myHubContext.Clients.All.SendAsync("ReceiveContact", invitation.To);
 
-            return Json(Uservice);
+            return StatusCode(201);
         }
 
         [HttpPost("transfer")]
@@ -100,7 +100,7 @@ namespace WebApplication2.Controllers
             contact.LastDate = DateTime.Now;
             contact.MessegesService.Add(transfer.Content, false);
             _myHubContext.Clients.All.SendAsync("ReceiveMessege", transfer.From, transfer.To);
-            return Json(Uservice);
+            return StatusCode(201);
         }
 
 
